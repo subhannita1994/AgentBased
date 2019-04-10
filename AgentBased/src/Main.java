@@ -49,6 +49,10 @@ public class Main {
 		//?what other parameters to update - complianceCost,supplier.efficiency,buyer.efficiency?//
 	}
 	
+	private static void print() {
+		//displays all relevant info : plots go here
+	}
+	
 	public static void main(String[] args) {
 		
 		setup();
@@ -69,5 +73,6 @@ public class Main {
 			else
 				tick++;
 		}
+		print();
 	}
 }
