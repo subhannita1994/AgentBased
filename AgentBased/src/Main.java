@@ -30,13 +30,14 @@ public class Main {
 			return true;
 		else {	
 			//not caught last time
-			if(costOfCompliance()>0)
+			if(costOfCompliance()>=0)
 				supplier.increaseDefect();
 			else
 				supplier.decreaseDefect();
 			/*
-			 * return true if new f(c)<0 else return false
-			 * how is supplier.defectTendency affecting either arrestPenalty or supplier.efficiency
+			 * ?how is tendency to defect affect compliance - simply a probability?*
+			 * ?return true if new f(c)<0 else return false?
+			 * ?how is supplier.defectTendency affecting either arrestPenalty or supplier.efficiency?
 			 */
 		}
 		return false;	//to be removed
@@ -45,6 +46,7 @@ public class Main {
 	//update parameters
 	private static void update() {
 		//sustainability = //?how will sustainability update?//
+		//?what other parameters to update - complianceCost,supplier.efficiency,buyer.efficiency?//
 	}
 	
 	public static void main(String[] args) {
@@ -58,6 +60,10 @@ public class Main {
 		else {
 			update();
 			if(sustainability < buyer.getThreshold()) {
+				/*
+				?does this mean that supplier has been caught or is it a function of monitoring efficiency
+				- if yes then update Supplier.historyOfArrest?
+				*/
 				//flash danger
 			}
 			else
