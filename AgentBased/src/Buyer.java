@@ -1,6 +1,7 @@
 
 public class Buyer {
 
+	private int cost;
 	private int sustainability_threshold;
 	private int arrestPenalty;
 	private int efficiency;

@@ -1,17 +1,20 @@
-
+import org.eclipse.draw2d.*;
+import org.eclipse.nebula.snippets.visualization.*;
 public class Main {
 
+	
+	
 	static Buyer buyer = new Buyer();
 	static Supplier supplier = new Supplier();
 	
 	//global variables
 	private static int tick;
-	private static int sustainability;	//?global to entire process or specific to a pair of buyer-supplier?
+	private static int sustainability;	
 	
 	//initial setup
 	private static void setup() {
 		tick = 0;
-		//sustainability = ;
+		sustainability = 100;
 		buyer.setArrestPenalty(60);
 		buyer.setThreshold(60);
 		supplier.setComplianceCost(100);
@@ -19,10 +22,12 @@ public class Main {
 		supplier.setDefectTendency(0.5);
 	}
 	
-	//function to decide cost of compliance
-	private static int costOfCompliance() {
-		return supplier.getComplianceCost() - buyer.getArrestPenalty() - supplier.getEfficiency();
+	//function to decide cost of compliance or supplier cost
+	private static double costOfCompliance() {
+		return (double) supplier.getComplianceCost() - buyer.getArrestPenalty() - supplier.getEfficiency();
 	}
+	
+	
 	
 	//supplier sub process -- returns true if comply, else return false
 	private static boolean supplier_subProcess() {
@@ -34,45 +39,53 @@ public class Main {
 				supplier.increaseDefect();
 			else
 				supplier.decreaseDefect();
-			/*
-			 * ?how is tendency to defect affect compliance - simply a probability?*
-			 * ?return true if new f(c)<0 else return false?
-			 * ?how is supplier.defectTendency affecting either arrestPenalty or supplier.efficiency?
-			 */
+			double random = Math.random();
+			if(random < supplier.getDefectTendency())
+				return false;
+			else
+				return true;
+			
 		}
-		return false;	//to be removed
 	}
 	
 	//update parameters
-	private static void update() {
-		//sustainability = //?how will sustainability update?//
-		//?what other parameters to update - complianceCost,supplier.efficiency,buyer.efficiency?//
+	private static void update_comply() {
+		sustainability++;
+		supplier.decreaseComplianceCost();
+		supplier.addArrest(false);
 	}
-	
+	private static void update_nonComply() {
+		sustainability--;
+		
+	}
 	private static void print() {
 		//displays all relevant info : plots go here
 	}
 	
+	private static boolean buyer_subProcess() {
+		//return true if caught else false
+		//probability of monitoring efficiency * (event that defect tendency < threshold)
+		return false;
+	}
 	public static void main(String[] args) {
 		
 		setup();
 		boolean compliance = supplier_subProcess();
+		boolean check = buyer_subProcess();
 		if(compliance) {
-			update();
-			tick++;
+			update_comply();
 		}
-		else {
-			update();
-			if(sustainability < buyer.getThreshold()) {
-				/*
-				?does this mean that supplier has been caught or is it a function of monitoring efficiency
-				- if yes then update Supplier.historyOfArrest?
-				*/
-				//flash danger
+		else if(!compliance) {
+			update_nonComply();
+			if(!check) {
+				supplier.addArrest(false);
 			}
-			else
-				tick++;
+			else {
+				supplier.addArrest(true);
+			}
 		}
+		
+		tick++;
 		print();
 	}
 }
