@@ -1,15 +1,16 @@
 
 public class Buyer {
 
-	private int cost;
-	private int sustainability_threshold;
+	private int obsCost;
+	private double buyerPenalty;
+	private double sustainability_threshold;
 	private int arrestPenalty;
-	private int efficiency;
+	private double efficiency;
 	
-	public void setThreshold(int t) {
+	public void setThreshold(double t) {
 		this.sustainability_threshold = t;
 	}
-	public int getThreshold() {
+	public double getThreshold() {
 		return this.sustainability_threshold;
 	}
 	
@@ -20,10 +21,22 @@ public class Buyer {
 		return this.arrestPenalty;
 	}
 	
-	public void setEfficiency(int e) {
+	public void setEfficiency(double e) {
 		this.efficiency = e;
 	}
-	public int getEfficiency() {
+	public double getEfficiency() {
 		return this.efficiency;
+	}
+	public void setObsCost(int e) {
+		this.obsCost = e;
+	}
+	public int getObsCost() {
+		return this.obsCost;
+	}
+	public void setBuyerPenalty(double d) {
+		this.buyerPenalty = d;
+	}
+	public double getbuyerPenalty() {
+		return this.buyerPenalty;
 	}
 }
