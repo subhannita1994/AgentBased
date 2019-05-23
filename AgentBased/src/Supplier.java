@@ -2,16 +2,18 @@ import java.util.LinkedList;
 public class Supplier {
 	//supplier variables
 	private LinkedList<Boolean> historyOfArrest;
-	private int efficiency;
+	private double efficiency;
 	private double complianceCost;
 	private double complianceCostStep;
-	private double defectTendency;
-	private double defectTendencyStep;
+	private double complianceTendency;
+	private double complianceTendencyStep;
+	private double totCost;
 	
 	public Supplier() {
 		historyOfArrest = new LinkedList<Boolean>();
-		defectTendencyStep = 0.1;
-		complianceCostStep = 0.5;
+		complianceTendencyStep = 0.05;
+		complianceCostStep = 0.05;
+		complianceTendency = 0;
 	}
 	
 	public boolean getLastArrest() {
@@ -24,33 +26,50 @@ public class Supplier {
 		this.historyOfArrest.add(b);
 	}
 	
-	public void setEfficiency(int e) {
+	public void setEfficiency(double e) {
 		this.efficiency = e;
 	}
-	public int getEfficiency() {
+	public double getEfficiency() {
 		return this.efficiency;
 	}
 
-	public void setComplianceCost(int c) {
-		this.complianceCost = c;
-	}
 	public double getComplianceCost() {
 		return this.complianceCost;
 	}
+	public void setComplianceCost(double t) {
+		this.complianceCost = t;
+	}
 	public void decreaseComplianceCost() {
-		this.complianceCost -= this.complianceCostStep;
+		if(this.complianceCost - this.complianceCostStep <=0.3)
+			this.complianceCost = 0.3;
+		else
+			this.complianceCost -= this.complianceCostStep;
 	}
 	
-	public void setDefectTendency(double t) {
-		this.defectTendency = t;
+	
+	public void increaseCompliance() {
+		this.setComplianceTendency(this.complianceTendencyStep);
 	}
-	public void increaseDefect() {
-		this.defectTendency = this.defectTendency + this.defectTendencyStep;
+	public void decreaseCompliance() {
+		this.setComplianceTendency(-this.complianceTendencyStep);
 	}
-	public void decreaseDefect() {
-		this.defectTendency = this.defectTendency - this.defectTendencyStep;
+	public void setComplianceTendency(double step) {
+		double t = this.complianceTendency + step;
+		if(t>=1)
+			this.complianceTendency = 1.0;
+		else if(t<=0)
+			this.complianceTendency = 0.0;
+		else
+			this.complianceTendency = t;
 	}
-	public double getDefectTendency() {
-		return this.defectTendency;
+	
+	public double getComplianceTendency() {
+		return this.complianceTendency;
+	}
+	public void setTotCost(double t) {
+		this.totCost = t;
+	}
+	public double getTotCost() {
+		return this.totCost;
 	}
 }
